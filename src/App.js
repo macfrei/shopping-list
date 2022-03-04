@@ -1,7 +1,14 @@
 import listItems from "./data";
 import ListItem from "./components/ListItem";
+import { nanoid } from "nanoid";
 
 function App() {
+  function addTodo(title) {
+    const newTodo = {
+      _id: nanoid(),
+      name: { en: title, de: "" },
+    };
+  }
   return (
     <ul>
       {listItems.map((item) => (
