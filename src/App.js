@@ -16,13 +16,18 @@ function App() {
     setShoppingList([...shoppingList, newItem]);
   }
 
+  function deleteItem(itemId) {
+    const newItemList = shoppingList.filter((item) => item._id !== itemId);
+    setShoppingList(newItemList);
+  }
+
   return (
     <>
       <h1>My shopping list</h1>
 
       <ul role="list">
         {shoppingList.map((item) => (
-          <ListItem key={item._id} name={item.name.en} />
+          <ListItem key={item._id} item={item} onDelete={deleteItem} />
         ))}
       </ul>
       <AddItem onAddItem={addItem} />
