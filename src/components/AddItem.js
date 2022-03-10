@@ -6,7 +6,7 @@ export default function AddItem({ onAddItem }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <label htmlFor="new-item">What do you want to buy?</label>
+      <label htmlFor="new-item">Add item you want to buy:</label>
       <input
         type="text"
         id="new-item"
