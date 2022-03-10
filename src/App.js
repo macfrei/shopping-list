@@ -1,12 +1,18 @@
-/* eslint-disable jsx-a11y/no-redundant-roles */
-import listItems from "./data";
-import ListItem from "./components/ListItem";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import AddItem from "./components/AddItem";
+import ShoppingList from "./components/ShoppingList";
 
 function App() {
-  const [shoppingList, setShoppingList] = useState(listItems);
+  const [shoppingList, setShoppingList] = useState([]);
+
+  return (
+    <>
+      <h1>My shopping list</h1>
+      <ShoppingList shoppingList={shoppingList} onDelete={deleteItem} />
+      <AddItem onAddItem={addItem} />
+    </>
+  );
 
   function addItem(name) {
     const newItem = {
@@ -20,19 +26,6 @@ function App() {
     const newItemList = shoppingList.filter((item) => item._id !== itemId);
     setShoppingList(newItemList);
   }
-
-  return (
-    <>
-      <h1>My shopping list</h1>
-
-      <ul role="list">
-        {shoppingList.map((item) => (
-          <ListItem key={item._id} item={item} onDelete={deleteItem} />
-        ))}
-      </ul>
-      <AddItem onAddItem={addItem} />
-    </>
-  );
 }
 
 export default App;
