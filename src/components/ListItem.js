@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
-export default function ListItem({ item, onToggleActiveItem }) {
+export default function ListItem({ item, onToggleActiveItem, language }) {
   return (
-    <ListItemStyled onClick={onToggleActiveItem}>{item.name.en}</ListItemStyled>
+    <ListItemStyled onClick={onToggleActiveItem}>
+      {item.name[language]}
+    </ListItemStyled>
   );
 }
 

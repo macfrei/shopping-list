@@ -6,6 +6,7 @@ export default function CollabsibleCategory({
   activeShoppingList,
   onToggleActiveItem,
   category,
+  language,
 }) {
   const [toggle, setToggle] = useState(true);
   return (
@@ -18,6 +19,7 @@ export default function CollabsibleCategory({
         <ShoppingList
           shoppingList={activeShoppingList}
           onToggleActiveItem={onToggleActiveItem}
+          language={language}
         />
       )}
     </section>

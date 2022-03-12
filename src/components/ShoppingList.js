@@ -2,7 +2,11 @@
 import ListItem from "./ListItem";
 import styled from "styled-components";
 
-export default function ShoppingList({ shoppingList, onToggleActiveItem }) {
+export default function ShoppingList({
+  shoppingList,
+  onToggleActiveItem,
+  language,
+}) {
   return (
     <List role="list">
       {shoppingList.map((item) => (
@@ -10,6 +14,7 @@ export default function ShoppingList({ shoppingList, onToggleActiveItem }) {
           key={item._id}
           item={item}
           onToggleActiveItem={() => onToggleActiveItem(item)}
+          language={language}
         />
       ))}
     </List>

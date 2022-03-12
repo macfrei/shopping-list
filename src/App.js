@@ -13,6 +13,7 @@ function App() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedItems, setSearchedItems] = useState([]);
+  const [language, setLanguage] = useState("en");
 
   const noMatch = searchTerm !== "" && searchedItems.length === 0;
 
@@ -30,7 +31,7 @@ function App() {
         const categories = await categorieRes.json();
 
         const searcher = new Searcher(data.data, {
-          keySelector: (obj) => obj.name.en,
+          keySelector: (obj) => obj.name[language],
         });
         const searchedData = searcher.search(searchTerm);
 
@@ -38,7 +39,7 @@ function App() {
           const category = categories.data.find(
             (el) => el._id === item.category._ref
           );
-          return { ...item, category: category.name.en };
+          return { ...item, category: category.name };
         });
 
         setSearchedItems(searchedDataWithCategroy);
@@ -46,7 +47,7 @@ function App() {
         console.error(error);
       }
     }
-  }, [searchTerm]);
+  }, [searchTerm, language]);
 
   useEffect(() => {
     saveToLocal("shopping-list", activeShoppingList);
@@ -55,15 +56,19 @@ function App() {
   return (
     <Wrapper>
       <h1>My shopping list</h1>
+      <button onClick={() => setLanguage("en")}>en</button>
+      <button onClick={() => setLanguage("de")}>de</button>
       <ActiveShoppingList
         activeShoppingList={activeShoppingList}
         onToggleActiveItem={deleteItem}
+        language={language}
       />
       <SearchItem searchTerm={searchTerm} onSearch={setSearchTerm} />
       {searchedItems && (
         <ShoppingList
           shoppingList={searchedItems}
           onToggleActiveItem={addItem}
+          language={language}
         />
       )}
       {noMatch && (
