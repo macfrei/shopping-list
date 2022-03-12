@@ -13,6 +13,8 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedItems, setSearchedItems] = useState([]);
 
+  const noMatch = searchTerm !== "" && searchedItems.length === 0;
+
   useEffect(() => {
     loadShoppingItems();
     async function loadShoppingItems() {
@@ -49,6 +51,12 @@ function App() {
           shoppingList={searchedItems}
           onToggleActiveItem={addItem}
         />
+      )}
+      {noMatch && (
+        <p>
+          We could not find what you were looking for. For that we are truly
+          sorry.
+        </p>
       )}
     </Wrapper>
   );
