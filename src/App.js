@@ -4,7 +4,6 @@ import ShoppingList from "./components/ShoppingList";
 import SearchItem from "./components/SearchItem";
 import { useEffect } from "react";
 import { Searcher } from "fast-fuzzy";
-import ListItem from "./components/ListItem";
 
 function App() {
   const [activeShoppingList, setActiveShoppingList] = useState([]);
@@ -33,17 +32,36 @@ function App() {
   return (
     <Wrapper>
       <h1>My shopping list</h1>
-      <ShoppingList shoppingList={activeShoppingList} />
+      <ShoppingList
+        shoppingList={activeShoppingList}
+        onToggleActiveItem={deleteItem}
+      />
       <SearchItem searchTerm={searchTerm} onSearch={setSearchTerm} />
-      {searchedItems && <ShoppingList shoppingList={searchedItems} />}
+      {searchedItems && (
+        <ShoppingList
+          shoppingList={searchedItems}
+          onToggleActiveItem={addItem}
+        />
+      )}
     </Wrapper>
   );
 
-  function deleteItem(itemId) {
+  function deleteItem(clickedItem) {
     const newItemList = activeShoppingList.filter(
-      (item) => item._id !== itemId
+      (item) => item._id !== clickedItem._id
     );
     setActiveShoppingList(newItemList);
+  }
+
+  function addItem(item) {
+    const includesItem = activeShoppingList
+      .map((item) => item._id)
+      .includes(item._id);
+    if (!includesItem) {
+      setActiveShoppingList([...activeShoppingList, item]);
+    } else {
+      console.log("Item already in array!");
+    }
   }
 }
 

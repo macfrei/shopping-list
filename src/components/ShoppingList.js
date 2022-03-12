@@ -2,11 +2,15 @@
 import ListItem from "./ListItem";
 import styled from "styled-components";
 
-export default function ShoppingList({ shoppingList }) {
+export default function ShoppingList({ shoppingList, onToggleActiveItem }) {
   return (
     <List role="list">
       {shoppingList.map((item) => (
-        <ListItem key={item._id} item={item} />
+        <ListItem
+          key={item._id}
+          item={item}
+          onToggleActiveItem={() => onToggleActiveItem(item)}
+        />
       ))}
     </List>
   );

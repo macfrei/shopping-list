@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
-export default function ListItem({ item }) {
-  return <ListItemStyled>{item.name.en}</ListItemStyled>;
+export default function ListItem({ item, onToggleActiveItem }) {
+  return (
+    <ListItemStyled onClick={onToggleActiveItem}>{item.name.en}</ListItemStyled>
+  );
 }
 
 const ListItemStyled = styled.li`
