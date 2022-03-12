@@ -1,8 +1,12 @@
-export default function ListItem({ item, onDelete }) {
-  return (
-    <li>
-      {item.name.en}
-      <button onClick={() => onDelete(item._id)}>Delete</button>
-    </li>
-  );
+import styled from "styled-components";
+
+export default function ListItem({ item }) {
+  return <ListItemStyled>{item.name.en}</ListItemStyled>;
 }
+
+const ListItemStyled = styled.li`
+  padding: 12px;
+  border-radius: 4px;
+  background-color: midnightblue;
+  color: white;
+`;
