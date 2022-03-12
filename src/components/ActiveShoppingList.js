@@ -1,4 +1,4 @@
-import CollabsibleCategory from "./CollabsibleCategory";
+import CollabsibleSection from "./CollabsibleSection";
 
 export default function ActiveShoppingList({
   activeShoppingList,
@@ -11,13 +11,13 @@ export default function ActiveShoppingList({
   return (
     <>
       {categories.map((category) => (
-        <CollabsibleCategory
-          activeShoppingList={activeShoppingList.filter(
+        <CollabsibleSection
+          shoppingList={activeShoppingList.filter(
             (item) => item.category[language] === category
           )}
           onToggleActiveItem={onToggleActiveItem}
           key={category}
-          category={category}
+          title={category}
           language={language}
         />
       ))}

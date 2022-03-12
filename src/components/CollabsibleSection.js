@@ -2,10 +2,10 @@ import { useState } from "react";
 import ShoppingList from "./ShoppingList";
 import styled from "styled-components";
 
-export default function CollabsibleCategory({
-  activeShoppingList,
+export default function CollabsibleSection({
+  shoppingList,
   onToggleActiveItem,
-  category,
+  title,
   language,
 }) {
   const [toggle, setToggle] = useState(true);
@@ -13,11 +13,11 @@ export default function CollabsibleCategory({
     <section>
       <Button onClick={() => setToggle(!toggle)}>
         <span>{toggle ? "▹" : "▿"}</span>
-        {category}
+        {title}
       </Button>
       {toggle && (
         <ShoppingList
-          shoppingList={activeShoppingList}
+          shoppingList={shoppingList}
           onToggleActiveItem={onToggleActiveItem}
           language={language}
         />

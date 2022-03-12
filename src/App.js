@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { Searcher } from "fast-fuzzy";
 import { loadFromLocal, saveToLocal } from "./utils/localStorage";
 import ActiveShoppingList from "./components/ActiveShoppingList";
-import CollabsibleCategory from "./components/CollabsibleCategory";
+import CollabsibleSection from "./components/CollabsibleSection";
 
 function App() {
   const [activeShoppingList, setActiveShoppingList] = useState(
@@ -89,9 +89,9 @@ function App() {
         </p>
       )}
       {!searchTerm && (
-        <CollabsibleCategory
-          activeShoppingList={recentlyUsedItems}
-          category={language === "en" ? "Recently used" : "Vor Kurzem gesucht"}
+        <CollabsibleSection
+          shoppingList={recentlyUsedItems}
+          title={language === "en" ? "Recently used" : "Vor Kurzem gesucht"}
           onToggleActiveItem={handleRecentItem}
           language={language}
         />
