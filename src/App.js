@@ -1,14 +1,12 @@
-import { nanoid } from "nanoid";
 import styled from "styled-components";
 import { useState } from "react";
-import AddItem from "./components/AddItem";
 import ShoppingList from "./components/ShoppingList";
 import SearchItem from "./components/SearchItem";
 import { useEffect } from "react";
 import { Searcher } from "fast-fuzzy";
 
 function App() {
-  const [shoppingList, setShoppingList] = useState([]);
+  const [activeShoppingList, setActiveShoppingList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedItems, setSearchedItems] = useState([]);
 
@@ -34,8 +32,7 @@ function App() {
   return (
     <Wrapper>
       <h1>My shopping list</h1>
-      <ShoppingList shoppingList={shoppingList} onDelete={deleteItem} />
-      <AddItem onAddItem={addItem} />
+      <ShoppingList shoppingList={activeShoppingList} onDelete={deleteItem} />
       <SearchItem searchTerm={searchTerm} onSearch={setSearchTerm} />
       <ul>
         {searchedItems &&
@@ -44,17 +41,11 @@ function App() {
     </Wrapper>
   );
 
-  function addItem(name) {
-    const newItem = {
-      _id: nanoid(),
-      name: { en: name, de: "" },
-    };
-    setShoppingList([...shoppingList, newItem]);
-  }
-
   function deleteItem(itemId) {
-    const newItemList = shoppingList.filter((item) => item._id !== itemId);
-    setShoppingList(newItemList);
+    const newItemList = activeShoppingList.filter(
+      (item) => item._id !== itemId
+    );
+    setActiveShoppingList(newItemList);
   }
 }
 
