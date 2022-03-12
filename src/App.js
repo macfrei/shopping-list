@@ -4,6 +4,7 @@ import ShoppingList from "./components/ShoppingList";
 import SearchItem from "./components/SearchItem";
 import { useEffect } from "react";
 import { Searcher } from "fast-fuzzy";
+import ListItem from "./components/ListItem";
 
 function App() {
   const [activeShoppingList, setActiveShoppingList] = useState([]);
@@ -32,12 +33,9 @@ function App() {
   return (
     <Wrapper>
       <h1>My shopping list</h1>
-      <ShoppingList shoppingList={activeShoppingList} onDelete={deleteItem} />
+      <ShoppingList shoppingList={activeShoppingList} />
       <SearchItem searchTerm={searchTerm} onSearch={setSearchTerm} />
-      <ul>
-        {searchedItems &&
-          searchedItems.map((item) => <li key={item._id}>{item.name.en}</li>)}
-      </ul>
+      {searchedItems && <ShoppingList shoppingList={searchedItems} />}
     </Wrapper>
   );
 
