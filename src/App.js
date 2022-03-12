@@ -5,6 +5,7 @@ import SearchItem from "./components/SearchItem";
 import { useEffect } from "react";
 import { Searcher } from "fast-fuzzy";
 import { loadFromLocal, saveToLocal } from "./utils/localStorage";
+import ActiveShoppingList from "./components/ActiveShoppingList";
 
 function App() {
   const [activeShoppingList, setActiveShoppingList] = useState(
@@ -23,11 +24,24 @@ function App() {
           "https://fetch-me.vercel.app/api/shopping/items"
         );
         const data = await response.json();
+        const categorieRes = await fetch(
+          "https://fetch-me.vercel.app/api/shopping/categories"
+        );
+        const categories = await categorieRes.json();
+
         const searcher = new Searcher(data.data, {
           keySelector: (obj) => obj.name.en,
         });
         const searchedData = searcher.search(searchTerm);
-        setSearchedItems(searchedData);
+
+        const searchedDataWithCategroy = searchedData.map((item) => {
+          const category = categories.data.find(
+            (el) => el._id === item.category._ref
+          );
+          return { ...item, category: category.name.en };
+        });
+
+        setSearchedItems(searchedDataWithCategroy);
       } catch (error) {
         console.error(error);
       }
@@ -41,8 +55,8 @@ function App() {
   return (
     <Wrapper>
       <h1>My shopping list</h1>
-      <ShoppingList
-        shoppingList={activeShoppingList}
+      <ActiveShoppingList
+        activeShoppingList={activeShoppingList}
         onToggleActiveItem={deleteItem}
       />
       <SearchItem searchTerm={searchTerm} onSearch={setSearchTerm} />
@@ -77,6 +91,7 @@ function App() {
     } else {
       console.log("Item already in array!");
     }
+    setSearchTerm("");
   }
 }
 
