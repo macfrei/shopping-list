@@ -1,4 +1,4 @@
-import CollabsibleCategorie from "./CollabsibleCategorie";
+import CollabsibleCategory from "./CollabsibleCategory";
 
 export default function ActiveShoppingList({
   activeShoppingList,
@@ -10,7 +10,7 @@ export default function ActiveShoppingList({
   return (
     <>
       {categories.map((category) => (
-        <CollabsibleCategorie
+        <CollabsibleCategory
           activeShoppingList={activeShoppingList.filter(
             (item) => item.category === category
           )}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import ShoppingList from "./ShoppingList";
 import styled from "styled-components";
 
-export default function CollabsibleCategorie({
+export default function CollabsibleCategory({
   activeShoppingList,
   onToggleActiveItem,
   category,
