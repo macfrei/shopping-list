@@ -5,6 +5,7 @@ import AddItem from "./components/AddItem";
 import ShoppingList from "./components/ShoppingList";
 import SearchItem from "./components/SearchItem";
 import { useEffect } from "react";
+import { Searcher } from "fast-fuzzy";
 
 function App() {
   const [shoppingList, setShoppingList] = useState([]);
@@ -12,14 +13,18 @@ function App() {
   const [searchedItems, setSearchedItems] = useState([]);
 
   useEffect(() => {
-    if (searchTerm) loadShoppingItems();
+    loadShoppingItems();
     async function loadShoppingItems() {
       try {
         const response = await fetch(
           "https://fetch-me.vercel.app/api/shopping/items"
         );
         const data = await response.json();
-        setSearchedItems(data.data);
+        const searcher = new Searcher(data.data, {
+          keySelector: (obj) => obj.name.en,
+        });
+        const searchedData = searcher.search(searchTerm);
+        setSearchedItems(searchedData);
       } catch (error) {
         console.error(error);
       }
@@ -32,6 +37,10 @@ function App() {
       <ShoppingList shoppingList={shoppingList} onDelete={deleteItem} />
       <AddItem onAddItem={addItem} />
       <SearchItem searchTerm={searchTerm} onSearch={setSearchTerm} />
+      <ul>
+        {searchedItems &&
+          searchedItems.map((item) => <li key={item._id}>{item.name.en}</li>)}
+      </ul>
     </Wrapper>
   );
 
