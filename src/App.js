@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { Searcher } from "fast-fuzzy";
 import { loadFromLocal, saveToLocal } from "./utils/localStorage";
 import ActiveShoppingList from "./components/ActiveShoppingList";
+import CollabsibleCategory from "./components/CollabsibleCategory";
 
 function App() {
   const [activeShoppingList, setActiveShoppingList] = useState(
@@ -13,7 +14,10 @@ function App() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedItems, setSearchedItems] = useState([]);
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState(loadFromLocal("language") ?? "en");
+  const [recentlyUsedItems, setRecentlyUsedItems] = useState(
+    loadFromLocal("recently-used") ?? []
+  );
 
   const noMatch = searchTerm !== "" && searchedItems.length === 0;
 
@@ -51,11 +55,13 @@ function App() {
 
   useEffect(() => {
     saveToLocal("shopping-list", activeShoppingList);
-  }, [activeShoppingList]);
+    saveToLocal("recently-used", recentlyUsedItems);
+    saveToLocal("language", language);
+  }, [activeShoppingList, recentlyUsedItems, language]);
 
   return (
     <Wrapper>
-      <h1>My shopping list</h1>
+      <h1>{language === "en" ? "My shopping list" : "Meine Einkaufsliste"}</h1>
       <button onClick={() => setLanguage("en")}>en</button>
       <button onClick={() => setLanguage("de")}>de</button>
       <ActiveShoppingList
@@ -63,7 +69,11 @@ function App() {
         onToggleActiveItem={deleteItem}
         language={language}
       />
-      <SearchItem searchTerm={searchTerm} onSearch={setSearchTerm} />
+      <SearchItem
+        searchTerm={searchTerm}
+        onSearch={setSearchTerm}
+        language={language}
+      />
       {searchedItems && (
         <ShoppingList
           shoppingList={searchedItems}
@@ -73,18 +83,35 @@ function App() {
       )}
       {noMatch && (
         <p>
-          We could not find what you were looking for. For that we are truly
-          sorry.
+          {language === "en"
+            ? "We could not find what you were looking for. For that we are truly sorry."
+            : "Sorry, das Gesuchte konnte nicht gefunden werden"}
         </p>
+      )}
+      {!searchTerm && (
+        <CollabsibleCategory
+          activeShoppingList={recentlyUsedItems}
+          category={language === "en" ? "Recently used" : "Vor Kurzem gesucht"}
+          onToggleActiveItem={handleRecentItem}
+          language={language}
+        />
       )}
     </Wrapper>
   );
+
+  function handleRecentItem(recentItem) {
+    setActiveShoppingList([...activeShoppingList, recentItem]);
+    setRecentlyUsedItems(
+      recentlyUsedItems.filter((item) => item._id !== recentItem._id)
+    );
+  }
 
   function deleteItem(clickedItem) {
     const newItemList = activeShoppingList.filter(
       (item) => item._id !== clickedItem._id
     );
     setActiveShoppingList(newItemList);
+    setRecentlyUsedItems([clickedItem, ...recentlyUsedItems]);
   }
 
   function addItem(item) {
@@ -93,6 +120,11 @@ function App() {
       .includes(item._id);
     if (!includesItem) {
       setActiveShoppingList([...activeShoppingList, item]);
+      setRecentlyUsedItems(
+        recentlyUsedItems.filter(
+          (recentlyUsed) => recentlyUsed._id !== item._id
+        )
+      );
     } else {
       console.log("Item already in array!");
     }

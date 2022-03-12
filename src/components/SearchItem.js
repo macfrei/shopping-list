@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
-export default function SearchItem({ onSearch, searchTerm }) {
+export default function SearchItem({ onSearch, searchTerm, language }) {
   return (
     <Form onSubmit={(event) => event.preventDefault()}>
-      <label htmlFor="search">Search for item you want to buy:</label>
+      <label htmlFor="search">
+        {language === "en"
+          ? "Search for item you want to buy:"
+          : "Suche nach Dingen, die du einkaufen möchtest:"}
+      </label>
       <input
         type="search"
         id="search"
