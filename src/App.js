@@ -4,9 +4,12 @@ import ShoppingList from "./components/ShoppingList";
 import SearchItem from "./components/SearchItem";
 import { useEffect } from "react";
 import { Searcher } from "fast-fuzzy";
+import { loadFromLocal, saveToLocal } from "./utils/localStorage";
 
 function App() {
-  const [activeShoppingList, setActiveShoppingList] = useState([]);
+  const [activeShoppingList, setActiveShoppingList] = useState(
+    loadFromLocal("shopping-list") ?? []
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedItems, setSearchedItems] = useState([]);
 
@@ -28,6 +31,10 @@ function App() {
       }
     }
   }, [searchTerm]);
+
+  useEffect(() => {
+    saveToLocal("shopping-list", activeShoppingList);
+  }, [activeShoppingList]);
 
   return (
     <Wrapper>
