@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-redundant-roles */
 import ListItem from "./ListItem";
 import styled from "styled-components";
 
@@ -8,7 +7,7 @@ export default function ShoppingList({
   language,
 }) {
   return (
-    <List role="list">
+    <List>
       {shoppingList.map((item) => (
         <ListItem
           key={item._id}
@@ -26,5 +25,4 @@ const List = styled.ul`
   gap: 8px;
   flex-wrap: wrap;
   padding: 0;
-  list-style: none;
 `;

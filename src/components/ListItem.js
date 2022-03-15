@@ -13,4 +13,5 @@ const ListItemStyled = styled.li`
   border-radius: 4px;
   background-color: midnightblue;
   color: white;
+  list-style: none;
 `;
