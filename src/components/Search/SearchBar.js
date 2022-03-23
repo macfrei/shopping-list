@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function SearchItem({ onSearch, searchTerm, language }) {
+export default function SearchBar({ onSearch, language, searchTerm }) {
   return (
     <Form onSubmit={(event) => event.preventDefault()}>
       <label htmlFor="search">

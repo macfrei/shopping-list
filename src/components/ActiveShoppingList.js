@@ -4,20 +4,18 @@ export default function ActiveShoppingList({
   activeShoppingList,
   onToggleActiveItem,
   language,
+  categories,
 }) {
-  const categories = [
-    ...new Set(activeShoppingList.map((item) => item.category[language])),
-  ];
   return (
     <>
       {categories.map((category) => (
         <CollabsibleSection
           shoppingList={activeShoppingList.filter(
-            (item) => item.category[language] === category
+            (item) => item.category._ref === category._id
           )}
           onToggleActiveItem={onToggleActiveItem}
-          key={category}
-          title={category}
+          key={category._id}
+          title={category.name[language]}
           language={language}
         />
       ))}
